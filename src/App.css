@@ -35,4 +35,16 @@
   to {
     transform: rotate(360deg);
   }
+
 }
+
+.grand-input {
+  background-color: black;
+  color: white;
+  font-size: 4rem;
+  border: none;
+  outline: none;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}  
