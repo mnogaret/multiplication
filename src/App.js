@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { Exercice as Operation } from "./operations/Exercice";
 
 function App() {
-  const [question, setQuestion] = useState([]);
+  const [question, setQuestion] = useState(null);
   const [reponse, setReponse] = useState("");
   const [tempsDebut, setTempsDebut] = useState(Date.now());
   const [temps, setTemps] = useState(0);
@@ -16,10 +17,8 @@ function App() {
     }
     setTempsDebut(Date.now());
     setReponse("");
-    setQuestion([
-      Math.floor(2 + Math.random() * 9),
-      Math.floor(2 + Math.random() * 9),
-    ]);
+    setQuestion(Operation.generate());
+
     const interval = setInterval(() => {
       setTemps((Date.now() - tempsDebut) / 1000);
     }, 20);
@@ -30,19 +29,16 @@ function App() {
 
   function verifie(e) {
     if (e.key === "Enter") {
-      if (reponse === "" + question[0] * question[1] && !fini) {
+      if (reponse === "" + question.getResult() && !fini) {
         setReponse("");
         setTempsTotal((prev) => prev + temps);
         setIteration((prev) => {
-          if (prev + 1 >= 10) {
+          if (prev + 1 >= 20) {
             setFini(true);
             return prev;
           } else {
             setTempsDebut(Date.now());
-            setQuestion([
-              Math.floor(2 + Math.random() * 9),
-              Math.floor(2 + Math.random() * 9),
-            ]);
+            setQuestion(Operation.generate());
             return prev + 1;
           }
         });
@@ -72,7 +68,7 @@ function App() {
         {!fini ? (
           <>
             <p>
-              {question[0]}×{question[1]}
+              {question?.format()}
             </p>
             <p>
               <input
